@@ -44,6 +44,7 @@ body {
     font-size: 1.714285714em;
     padding: 0.5em 0.75em;
     text-align: right;
+    cursor:auto;
 }
 
 .calculator__keys {
@@ -69,7 +70,18 @@ button {
     font-weight: inherit;
     outline: none;
     appearance: none;
+    cursor:pointer;
     }
+
+/* Style the active buttons and mouse-over */
+button:hover {
+    background-color: #4d4d4d;
+}
+
+button:active {
+    background-color: green;
+}
+/* End of styling buttons */
 
 .key--zero {
     grid-column: 1 / 3;
