@@ -1,3 +1,3 @@
-# calculator
-key_0 in key--zero
-add simple hover, activ to button; change view of coursor
+# calculator;
+Key_0 in key--zero;
+Add simple hover, activ to button; change view of coursor
