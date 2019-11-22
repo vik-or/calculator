@@ -7,92 +7,93 @@ let input = document.getElementById('input'), // input/output button
 
 // adding click handlers to number buttons
 for (let i = 0; i < number.length; i++) {
-  number[i].addEventListener("click", function(e) {
+    number[i].addEventListener("click", function(e) {
 
-    // storing current input string and its last character in letiables - used later
-    let currentString = input.innerHTML;
-    let lastChar = currentString[currentString.length - 1];
+        // storing current input string and its last character in letiables - used later
+        let currentString = input.innerHTML;
+        let lastChar = currentString[currentString.length - 1];
 
-    // if result is not diplayed, just keep adding
-    if (resultDisplayed === false) {
-      input.innerHTML += e.target.innerHTML;
-    } else if (resultDisplayed === true && lastChar === "+" || lastChar === "-" || lastChar === "×" || lastChar === "÷") {
-      // if result is currently displayed and user pressed an operator
-      // we need to keep on adding to the string for next operation
-      resultDisplayed = false;
-      input.innerHTML += e.target.innerHTML;
-    } else {
-      // if result is currently displayed and user pressed a number
-      // we need clear the input string and add the new input to start the new opration
-      resultDisplayed = false;
-      input.innerHTML = "";
-      input.innerHTML += e.target.innerHTML;
-    }
+        // if result is not diplayed, just keep adding
+        if (resultDisplayed === false) {
+            input.innerHTML += e.target.innerHTML;
+        } else if (resultDisplayed === true && lastChar === "+" || lastChar === "-" || lastChar === "×" || lastChar === "÷") {
+            // if result is currently displayed and user pressed an operator
+            // we need to keep on adding to the string for next operation
+            resultDisplayed = false;
+            input.innerHTML += e.target.innerHTML;
+        } else {
+            // if result is currently displayed and user pressed a number
+            // we need clear the input string and add the new input to start the new opration
+            resultDisplayed = false;
+            input.innerHTML = "";
+            input.innerHTML += e.target.innerHTML;
+        }
 
-  });
+    });
 }
 
 // on click of 'equal' button
 result.addEventListener("click", function() {
 
-  // this is the string that we will be processing eg. -10+26+33-56*34/23
-  let inputString = input.innerHTML;
+    // this is the string that we will be processing eg. -10+26+33-56*34/23
+    let inputString = input.innerHTML;
 
-  // forming an array of numbers. eg for above string it will be: numbers = ["10", "26", "33", "56", "34", "23"]
-  let numbers = inputString.split(/\+|\-|\×|\÷|\%/g);
+    // forming an array of numbers. eg for above string it will be: numbers = ["10", "26", "33", "56", "34", "23"]
+    let numbers = inputString.split(/\+|\-|\×|\÷|\%/g);
 
-  // forming an array of operators. for above string it will be: operators = [ "+", "-", "*", "/"]
-  // first we replace all the numbers and dot with empty string and then split
-  let operators = inputString.replace(/[0-9]|\./g, "").split("");
+    // forming an array of operators. for above string it will be: operators = [ "+", "-", "*", "/"]
+    // first we replace all the numbers and dot with empty string and then split
+    let operators = inputString.replace(/[0-9]|\./g, "").split("");
 
-  console.log(inputString);
-  console.log(operators);
-  console.log(numbers);
-  console.log("----------------------------");
+    console.log(inputString);
+    console.log(operators);
+    console.log(numbers);
+    console.log("----------------------------");
 
-  // now we are looping through the array and doing one operation at a time.
-  // first divide, then multiply, then subtraction and then addition
-  // as we move we are alterning the original numbers and operators array
-  // the final element remaining in the array will be the output
+    // now we are looping through the array and doing one operation at a time.
+    // first divide, then multiply, then subtraction and then addition
+    // as we move we are alterning the original numbers and operators array
+    // the final element remaining in the array will be the output
 
-  let divide = operators.indexOf("÷");
-  while (divide != -1) {
-    // using parseFloat is necessary, otherwise it will result in string concatenation
-    numbers.splice(divide, 2, parseFloat(numbers[divide]) / parseFloat(numbers[divide + 1]));
-    operators.splice(divide, 1);
-    divide = operators.indexOf("÷");
-  }
+    let divide = operators.indexOf("÷");
+    while (divide != -1) {
+        // using parseFloat is necessary, otherwise it will result in string concatenation
+        numbers.splice(divide, 2, parseFloat(numbers[divide]) / parseFloat(numbers[divide + 1]));
+        operators.splice(divide, 1);
+        divide = operators.indexOf("÷");
+    }
 
-  let multiply = operators.indexOf("×");
-  while (multiply != -1) {
-    // using parseFloat is necessary, otherwise it will result in string concatenation
-    numbers.splice(multiply, 2, parseFloat(numbers[multiply]) * parseFloat(numbers[multiply + 1]));
-    operators.splice(multiply, 1);
-    multiply = operators.indexOf("×");
-  }
+    let multiply = operators.indexOf("×");
+    while (multiply != -1) {
+        // using parseFloat is necessary, otherwise it will result in string concatenation
+        numbers.splice(multiply, 2, parseFloat(numbers[multiply]) * parseFloat(numbers[multiply + 1]));
+        operators.splice(multiply, 1);
+        multiply = operators.indexOf("×");
+    }
 
-  let subtract = operators.indexOf("-");
-  while (subtract != -1) {
-    // using parseFloat is necessary, otherwise it will result in string concatenation
-    numbers.splice(subtract, 2, parseFloat(numbers[subtract]) - parseFloat(numbers[subtract + 1]));
-    operators.splice(subtract, 1);
-    subtract = operators.indexOf("-");
-  }
+    let subtract = operators.indexOf("-");
+    while (subtract != -1) {
+        // using parseFloat is necessary, otherwise it will result in string concatenation
+        numbers.splice(subtract, 2, parseFloat(numbers[subtract]) - parseFloat(numbers[subtract + 1]));
+        operators.splice(subtract, 1);
+        subtract = operators.indexOf("-");
+    }
 
-  let add = operators.indexOf("+");
-  while (add != -1) {
-    // using parseFloat is necessary, otherwise it will result in string concatenation :)
-    numbers.splice(add, 2, parseFloat(numbers[add]) + parseFloat(numbers[add + 1]));
-    operators.splice(add, 1);
-    add = operators.indexOf("+");
-  }
+    let add = operators.indexOf("+");
+    while (add != -1) {
+        // using parseFloat is necessary, otherwise it will result in string concatenation :)
+        numbers.splice(add, 2, parseFloat(numbers[add]) + parseFloat(numbers[add + 1]));
+        operators.splice(add, 1);
+        add = operators.indexOf("+");
+    }
 
-  input.innerHTML = numbers[0]; // displaying the output
+    input.innerHTML = numbers[0]; // displaying the output
 
-  resultDisplayed = true; // turning flag if result is displayed
+    resultDisplayed = false; // turning flag if result is displayed
 });
 
 // clearing the input on press of clear
 clear.addEventListener("click", function() {
-  input.innerHTML = "0";
+    input.innerHTML = "0";
+    resultDisplayed = "0";
 })
